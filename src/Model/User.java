@@ -72,7 +72,7 @@ public class User {
     }
     public void saveUserCredential() throws Exception{
     String fileName="Users.csv";
-    createUsersFile();
+    //createUsersFile();
     //Delimiter used in CSV file
     String COMMA_DELIMITER = ",";
     String NEW_LINE_SEPARATOR = "\n";

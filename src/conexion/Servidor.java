@@ -120,7 +120,7 @@ public class Servidor {
                             String filename = data.getString("name");
                             String base=data.getString("bdname");
                             if(file.FolderChecker(base)){
-                                if(file.createTable(filename,base,rows)){flag=1;}
+                                if(file.createTable(filename,rows.toList())){flag=1;}
                                 else{flag=0;}
                             }else{
                                 flag=0;
@@ -130,13 +130,17 @@ public class Servidor {
                             
                             break;
                         case "eliminar_usuario":
+                            User eliminar=new User(data.getString("username"),"1");
+                            eliminar.delete();
+                            JSONObject delete_user= json.createResponse("eliminar_usuario", 1);
+                            out.writeUTF(delete_user.toString());
                             break;
                         case "obtener_bds":
                             List<String> bds=file.findAllDataBases();
                             JSONArray list_bd= new JSONArray(bds);
                             JSONObject respuesta=new JSONObject();
-                            respuesta.append("operation", "obtener_bds");
-                            respuesta.append("status", list_bd);
+                            respuesta.put("operation", "obtener_bds");
+                            respuesta.put("status", list_bd);
                             out.writeUTF(respuesta.toString());
                             
                             
@@ -173,7 +177,10 @@ public class Servidor {
    }
    
    public static void main(String[] args) throws InterruptedException, Exception{
-
+       //Files file= new Files();
+       //List<String> lista= new ArrayList<String>();
+       //lista.add("id");
+       //file.createTable("Comercio","Registro"  , lista);
       int puerto = 8067;
       int cola = 10;
       

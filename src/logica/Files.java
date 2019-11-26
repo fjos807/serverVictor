@@ -83,8 +83,7 @@ public boolean createFolder(String foldername){
         return false;
     }
 }
-public boolean createTable(String tableName, String db,List<String> rows) throws IOException{
-    if(!FileChecker(tableName,"Bases")){
+/*public boolean createTable(String tableName, String db,List<String> rows) throws IOException{
         
         File table= new File("Bases"+"\\"+db+"\\"+tableName+".csv");
         table.getParentFile().mkdirs();
@@ -103,12 +102,9 @@ public boolean createTable(String tableName, String db,List<String> rows) throws
                 Logger.getLogger(Files.class.getName()).log(Level.SEVERE, null, ex);
             }
         return true;
-    }else{
-       return false;
-    }
 }
   
-
+*/
 
 public List<String> findAllDataBases() {
     String cwd = System.getProperty("user.dir");
@@ -131,7 +127,8 @@ public List<String> findAllDataBases() {
     System.out.println(foldersInDirectory);
     return foldersInDirectory;
 }
- public void createTable(String filename,JSONArray rows){
+
+ public Boolean createTable(String filename,List<Object> rows){
     String fileName=filename+".csv";
     //Delimiter used in CSV file
     String COMMA_DELIMITER = ",";
@@ -139,19 +136,24 @@ public List<String> findAllDataBases() {
         FileWriter fileWriter = null;
         //password_encriptada.cifrar(login.getPassword());
         try {
+            String FILE_HEADER = "";
             fileWriter = new FileWriter(fileName,true);
-            for(int i=0;i<rows.length();i++){
-                fileWriter.append(rows.getString(i));
-                fileWriter.append(COMMA_DELIMITER);
-                 // iterate the JSONArray and extract the keys
+            for(int i=0;i<rows.size();i++){
+                FILE_HEADER+=rows.get(i)+",";
+        }
+            try {
+                fileWriter.append(FILE_HEADER);
+                fileWriter.append("\n");
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Files.class.getName()).log(Level.SEVERE, null, ex);
             }
-            fileWriter.append(NEW_LINE_SEPARATOR);
-            fileWriter.flush();
-            fileWriter.close();
-            System.out.println("Tabla creada");        
+            return true;
         } catch (IOException e) {
             System.out.println("Error");
-
+            return false;
+            
     }
  }
 
