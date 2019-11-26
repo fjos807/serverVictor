@@ -9,12 +9,14 @@ package conexion;
  *
  * @author frank
  */
+import Model.User;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import logica.Json;
 
 import org.json.JSONObject;
 
@@ -26,7 +28,8 @@ public class Servidor {
       serverSocket = new ServerSocket(puerto, tamanoCola);
    }
 
-   public void run() throws InterruptedException{
+   public void run() throws InterruptedException, Exception{
+      Json json=new Json();
       Socket socket; 
       while(true) {
          try {
@@ -67,15 +70,18 @@ public class Servidor {
             		
             		JSONObject jsonObject = new JSONObject(in.readUTF());
             		String operation = jsonObject.getString("operation");
-            		
+            		JSONObject data = (JSONObject)jsonObject.getJSONObject("data");
             		switch(operation) 
                     { 
                         case "crear_usuario": 
                             System.out.println("Se crea el usuario");
-                            JSONObject data = (JSONObject)jsonObject.getJSONObject("data");
+
                             System.out.println("Nombre: " + data.getString("username"));
                             System.out.println("Pass: " + data.getString("password"));
-                            //System.out.println(data.toString());
+                            User new_user=new User(data.getString("username"),data.getString("password"));
+                            new_user.saveUserCredential();
+                            JSONObject response= json.createResponse("crear_usuario", 1);
+                            out.writeUTF(response.toString());
                             
                             break; 
                         case "two": 
@@ -119,7 +125,7 @@ public class Servidor {
       }
    }
    
-   public static void main(String[] args) throws InterruptedException{
+   public static void main(String[] args) throws InterruptedException, Exception{
       int puerto = 8067;
       int cola = 10;
       
