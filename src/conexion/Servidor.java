@@ -107,7 +107,7 @@ public class Servidor {
                         case "create_bd": 
                             
                             System.out.println("three");
-                            if(file.createFolder(data.getString("password"))){
+                            if(file.createFolder(data.getString("name"))){
                                 flag=1;
                             }else{
                                 flag=0;

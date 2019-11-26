@@ -125,7 +125,7 @@ public class User {
 }
    public void delete() throws FileNotFoundException, IOException{
        String filename="Users.csv";
-       String resultRow = null;
+       List<String> resultRow = new ArrayList<String>();
        BufferedReader br = new BufferedReader(new FileReader(filename));
        String line;
        createUsersFile();
@@ -133,14 +133,21 @@ public class User {
         String COMMA_DELIMITER = ",";
         String NEW_LINE_SEPARATOR = "\n";
         FileWriter fileWriter = null;
-        fileWriter = new FileWriter(filename,true);
+        
         while ( (line = br.readLine()) != null ) {
             String[] values = line.split(",");
             if(values[0].equals(username)) {
                 
             }
-            fileWriter.append(line);
+            resultRow.add(line);
         }
+        File file=new File(filename);
+        file.delete();
+        fileWriter = new FileWriter(filename,true);
+        for (int i = 0; i < resultRow.size(); i++) {
+           fileWriter.append(line);
+           fileWriter.append(NEW_LINE_SEPARATOR);
+       }
         fileWriter.flush();
         fileWriter.close();
         br.close();
@@ -157,5 +164,6 @@ public List<String> findAllUsers() throws FileNotFoundException, IOException {
     }
     br.close();
     return users;
+}
 }
 
