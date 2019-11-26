@@ -75,7 +75,6 @@ public class Servidor {
                     { 
                         case "crear_usuario": 
                             System.out.println("Se crea el usuario");
-
                             System.out.println("Nombre: " + data.getString("username"));
                             System.out.println("Pass: " + data.getString("password"));
                             User new_user=new User(data.getString("username"),data.getString("password"));
@@ -84,8 +83,18 @@ public class Servidor {
                             out.writeUTF(response.toString());
                             
                             break; 
-                        case "two": 
+                        case "login": 
                             System.out.println("two"); 
+                            User user=new User(data.getString("username"),data.getString("password"));
+                            Boolean isRegisted=user.isRegisted();
+                            int flag;
+                            if(isRegisted){
+                                flag=1;
+                            }else{
+                                flag=0;
+                            }
+                            JSONObject registrado= json.createResponse("login", flag);
+                            out.writeUTF(registrado.toString());
                             break; 
                         case "three": 
                             System.out.println("three"); 

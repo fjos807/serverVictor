@@ -6,6 +6,8 @@
 package Model;
 //import java.util.*
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Base64;
@@ -49,10 +51,7 @@ public class User {
         return encriptada;
         
     }
-    public String validarUsuario(String usuario, String password) throws Exception{
-        String encrypt=cifrar(password);
-        return (usuario+","+encrypt);
-    }
+
     private void createUsersFile(){
         Files file=new Files();
         if(!file.FileChecker("Users","")){
@@ -100,5 +99,23 @@ public class User {
             System.out.println("Error");
 
     }
+}
+    public Boolean isRegisted() throws IOException, Exception {
+    String resultRow = null;
+    BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
+    String line;
+    Cifrado password_sin_cifrado=new Cifrado();
+    String contrasenna=password_sin_cifrado.cifrar(password);
+    while ( (line = br.readLine()) != null ) {
+        
+        String[] values = line.split(",");
+        if(values[0].equals(username)) {
+            if(values[1].equals(contrasenna)){
+                return true;
+            }
+        }
+    }
+    br.close();
+    return false;
 }
 }
