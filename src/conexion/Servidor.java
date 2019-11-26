@@ -9,6 +9,7 @@ package conexion;
  *
  * @author frank
  */
+import Model.Database;
 import Model.User;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,7 +17,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.List;
+import logica.Files;
 import logica.Json;
+import org.json.JSONArray;
 
 import org.json.JSONObject;
 
@@ -39,6 +44,7 @@ public class Servidor {
             
             System.out.println("Se acaba de conectar: " + socket.getRemoteSocketAddress());
             boolean state = true;
+            Files file=new Files();
             
             int tries = 0;
             
@@ -70,7 +76,9 @@ public class Servidor {
             		
             		JSONObject jsonObject = new JSONObject(in.readUTF());
             		String operation = jsonObject.getString("operation");
-            		JSONObject data = (JSONObject)jsonObject.getJSONObject("data");
+            		JSONObject data = (JSONObject)jsonObject.getJSONObject("data");       
+                        int flag;
+                        
             		switch(operation) 
                     { 
                         case "crear_usuario": 
@@ -87,7 +95,7 @@ public class Servidor {
                             System.out.println("two"); 
                             User user=new User(data.getString("username"),data.getString("password"));
                             Boolean isRegisted=user.isRegisted();
-                            int flag;
+                     
                             if(isRegisted){
                                 flag=1;
                             }else{
@@ -96,17 +104,42 @@ public class Servidor {
                             JSONObject registrado= json.createResponse("login", flag);
                             out.writeUTF(registrado.toString());
                             break; 
-                        case "create_database": 
-                            System.out.println("three"); 
+                        case "create_bd": 
                             
-                            break; 
+                            System.out.println("three");
+                            if(file.createFolder(data.getString("password"))){
+                                flag=1;
+                            }else{
+                                flag=0;
+                            }
+                            JSONObject db_creada= json.createResponse("create_bd", flag);
+                            out.writeUTF(db_creada.toString());
+                            break;
+                        case "crear_tabla":
+                            JSONArray rows = data.getJSONArray("rows");
+                            String filename = data.getString("name");
+                            if(!file.FolderChecker(data.getString("name"))){
+                                file.createTable(filename,rows);
+                                flag=1;
+                            }else{
+                                flag=0;
+                            }
+                            JSONObject tabla_creada= json.createResponse("crear_tabla", flag);
+                            out.writeUTF(tabla_creada.toString());
+                            
+                            break;
+                        case "eliminar_usuario":
+                            break;
+                        case "obtener_bds":
+                            List<String> bds=file.findAllDataBases();
+                            JSONArray list_bd= new JSONArray(bds); 
+                            out.writeUTF(list_bd.toString());
+                            
+                            
                         default: 
                             System.out.println("no match"); 
+                         
                     }
-            		
-            		
-              	    
-              	    out.writeUTF("copy");
             	} else {
             		tries ++;
             		if (tries >=500000) {

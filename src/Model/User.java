@@ -7,6 +7,7 @@ package Model;
 //import java.util.*
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -118,5 +119,22 @@ public class User {
         br.close();
         return false;
 }
+   /* public Boolean delete() throws FileNotFoundException, IOException{
+                String resultRow = null;
+        BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
+        String line;
+        //Cifrado password_sin_cifrado=new Cifrado();
+        //String contrasenna=password_sin_cifrado.cifrar(password);
+        while ( (line = br.readLine()) != null ) {
 
+            String[] values = line.split(",");
+            if(values[0].equals(username)) {
+                
+                }
+            }
+        }
+        br.close();
+        return false;
+    }
+*/
 }

@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComboBox;
 import logica.Cifrado;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  *
@@ -89,7 +92,7 @@ public boolean createTable(String tableName, String db){
     return false;
 }
 
-public List<String> findAllDataBases() {
+public ArrayList<String> findAllDataBases() {
     String cwd = System.getProperty("user.dir");
     File directory = new File(cwd+"\\"+"Bases");
 	
@@ -110,6 +113,29 @@ public List<String> findAllDataBases() {
     System.out.println(foldersInDirectory);
     return foldersInDirectory;
 }
+ public void createTable(String filename,JSONArray rows){
+    String fileName=filename+".csv";
+    //Delimiter used in CSV file
+    String COMMA_DELIMITER = ",";
+    String NEW_LINE_SEPARATOR = "\n";
+        FileWriter fileWriter = null;
+        //password_encriptada.cifrar(login.getPassword());
+        try {
+            fileWriter = new FileWriter(fileName,true);
+            for(int i=0;i<rows.length();i++){
+                fileWriter.append(rows.getString(i));
+                fileWriter.append(COMMA_DELIMITER);
+                 // iterate the JSONArray and extract the keys
+            }
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.flush();
+            fileWriter.close();
+            System.out.println("Tabla creada");        
+        } catch (IOException e) {
+            System.out.println("Error");
+
+    }
+ }
 
 }
 
