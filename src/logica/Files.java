@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,17 +83,34 @@ public boolean createFolder(String foldername){
         return false;
     }
 }
-public boolean createTable(String tableName, String db){
+public boolean createTable(String tableName, String db,List<String> rows) throws IOException{
     if(!FileChecker(tableName,"Bases")){
         
-        new File("Bases"+"\\"+db+"\\"+tableName).mkdir();
+        File table= new File("Bases"+"\\"+db+"\\"+tableName+".csv");
+        table.getParentFile().mkdirs();
+        FileWriter writer=new FileWriter(tableName);
         System.out.println("Folder creado");
+        String FILE_HEADER = "";
+        for (int i = 0; i < rows.size(); i++) {
+            FILE_HEADER+=rows.get(i)+",";
+        }
+            try {
+                writer.append(FILE_HEADER);
+                writer.append("\n");
+                writer.flush();
+                writer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Files.class.getName()).log(Level.SEVERE, null, ex);
+            }
         return true;
+    }else{
+       return false;
     }
-    return false;
 }
+  
 
-public ArrayList<String> findAllDataBases() {
+
+public List<String> findAllDataBases() {
     String cwd = System.getProperty("user.dir");
     File directory = new File(cwd+"\\"+"Bases");
 	

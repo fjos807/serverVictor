@@ -14,8 +14,8 @@ import org.json.JSONObject;
 public class Json {
     public JSONObject createResponse(String operation,int value){
         JSONObject response=new JSONObject();
-        response.append("operation", operation);
-        response.append("status", value);
+        response.put("operation", operation);
+        response.put("status", value);
         return response;
                 //addProperty("operation",operation);
         

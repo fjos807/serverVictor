@@ -119,22 +119,29 @@ public class User {
         br.close();
         return false;
 }
-   /* public Boolean delete() throws FileNotFoundException, IOException{
-                String resultRow = null;
-        BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
-        String line;
-        //Cifrado password_sin_cifrado=new Cifrado();
-        //String contrasenna=password_sin_cifrado.cifrar(password);
+   public void delete() throws FileNotFoundException, IOException{
+       String filename="Users.csv";
+       String resultRow = null;
+       BufferedReader br = new BufferedReader(new FileReader(filename));
+       String line;
+       createUsersFile();
+    //Delimiter used in CSV file
+        String COMMA_DELIMITER = ",";
+        String NEW_LINE_SEPARATOR = "\n";
+        FileWriter fileWriter = null;
+        fileWriter = new FileWriter(filename,true);
         while ( (line = br.readLine()) != null ) {
-
             String[] values = line.split(",");
             if(values[0].equals(username)) {
                 
-                }
             }
+            fileWriter.append(line);
         }
+        fileWriter.flush();
+        fileWriter.close();
         br.close();
-        return false;
     }
-*/
+
+
 }
+

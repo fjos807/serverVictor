@@ -118,9 +118,10 @@ public class Servidor {
                         case "crear_tabla":
                             JSONArray rows = data.getJSONArray("rows");
                             String filename = data.getString("name");
-                            if(!file.FolderChecker(data.getString("name"))){
-                                file.createTable(filename,rows);
-                                flag=1;
+                            String base=data.getString("bdname");
+                            if(file.FolderChecker(base)){
+                                if(file.createTable(filename,base,rows)){flag=1;}
+                                else{flag=0;}
                             }else{
                                 flag=0;
                             }
@@ -173,7 +174,6 @@ public class Servidor {
    
    public static void main(String[] args) throws InterruptedException, Exception{
 
-      
       int puerto = 8067;
       int cola = 10;
       
