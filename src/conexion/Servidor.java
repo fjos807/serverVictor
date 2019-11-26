@@ -132,8 +132,11 @@ public class Servidor {
                             break;
                         case "obtener_bds":
                             List<String> bds=file.findAllDataBases();
-                            JSONArray list_bd= new JSONArray(bds); 
-                            out.writeUTF(list_bd.toString());
+                            JSONArray list_bd= new JSONArray(bds);
+                            JSONObject respuesta=new JSONObject();
+                            respuesta.append("operation", "obtener_bds");
+                            respuesta.append("status", list_bd);
+                            out.writeUTF(respuesta.toString());
                             
                             
                         default: 
