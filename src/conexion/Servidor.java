@@ -96,8 +96,9 @@ public class Servidor {
                             JSONObject registrado= json.createResponse("login", flag);
                             out.writeUTF(registrado.toString());
                             break; 
-                        case "three": 
+                        case "create_database": 
                             System.out.println("three"); 
+                            
                             break; 
                         default: 
                             System.out.println("no match"); 
@@ -135,6 +136,8 @@ public class Servidor {
    }
    
    public static void main(String[] args) throws InterruptedException, Exception{
+
+      
       int puerto = 8067;
       int cola = 10;
       

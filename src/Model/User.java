@@ -101,21 +101,22 @@ public class User {
     }
 }
     public Boolean isRegisted() throws IOException, Exception {
-    String resultRow = null;
-    BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
-    String line;
-    Cifrado password_sin_cifrado=new Cifrado();
-    String contrasenna=password_sin_cifrado.cifrar(password);
-    while ( (line = br.readLine()) != null ) {
-        
-        String[] values = line.split(",");
-        if(values[0].equals(username)) {
-            if(values[1].equals(contrasenna)){
-                return true;
+        String resultRow = null;
+        BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
+        String line;
+        //Cifrado password_sin_cifrado=new Cifrado();
+        //String contrasenna=password_sin_cifrado.cifrar(password);
+        while ( (line = br.readLine()) != null ) {
+
+            String[] values = line.split(",");
+            if(values[0].equals(username)) {
+                if(values[1].equals(password)){
+                    return true;
+                }
             }
         }
-    }
-    br.close();
-    return false;
+        br.close();
+        return false;
 }
+
 }

@@ -27,58 +27,6 @@ import logica.Cifrado;
  * @author vmagu
  */
 public class Files {
-    
-public void saveUserCredential(User login) throws Exception{
-    String fileName="Users.csv";
-    createUsersFile();
-    //Delimiter used in CSV file
-    String COMMA_DELIMITER = ",";
-    String NEW_LINE_SEPARATOR = "\n";
-        FileWriter fileWriter = null;
-        Cifrado password_enciptada= new Cifrado();
-       
-        //password_encriptada.cifrar(login.getPassword());
-        try {
-            String password=password_enciptada.cifrar(login.getPassword());
-            fileWriter = new FileWriter(fileName,true);
-            //Add a new line separator after the header
-            
-            //Write a new student object list to the CSV file
-                fileWriter.append(String.valueOf(login.getUsername()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(password);
-                System.out.println("Cifrado:"+password);
-                String sin_cifrar=password_enciptada.descifrar(login.getPassword());
-                System.out.println("sin cifrar:"+sin_cifrar);
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-                                fileWriter.flush();
-                fileWriter.close();
-            //} 
-            System.out.println("User save");
-             
-        } catch (IOException e) {
-            System.out.println("Error");
-
-    }
-}
-public void createUsersFile(){
-    if(!FileChecker("Users","")){
-    
-        String FILE_HEADER = "username,password";
-        FileWriter fileWriter;
-        try {
-            fileWriter = new FileWriter("Users.csv");
-            fileWriter.append(FILE_HEADER);
-            fileWriter.append("\n");
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Files.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-}
-
 public Boolean isRegisted(String username, String password) throws IOException, Exception {
     String resultRow = null;
     BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
@@ -122,9 +70,14 @@ public boolean FolderChecker(String foldername) {
               return false;
 	  }
 }
-public void createFolder(String foldername){
-    new File("Bases"+"\\"+foldername).mkdir();
-    System.out.println("Folder creado");
+public boolean createFolder(String foldername){
+    if(!FolderChecker(foldername)){
+        new File("Bases"+"\\"+foldername).mkdir();
+        System.out.println("Folder creado");
+        return true;
+    }else{
+        return false;
+    }
 }
 public boolean createTable(String tableName, String db){
     if(!FileChecker(tableName,"Bases")){
