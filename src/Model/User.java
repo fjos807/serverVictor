@@ -7,11 +7,15 @@ package Model;
 //import java.util.*
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.Cifrado;
@@ -142,6 +146,16 @@ public class User {
         br.close();
     }
 
-
+public List<String> findAllUsers() throws FileNotFoundException, IOException {
+    String resultRow = null;
+    BufferedReader br = new BufferedReader(new FileReader("Users.csv"));
+    String line;
+    List<String> users=new ArrayList<String>();
+    while ( (line = br.readLine()) != null ) {        
+        String[] values = line.split(",");
+        users.add(values[0]);
+    }
+    br.close();
+    return users;
 }
 

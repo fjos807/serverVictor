@@ -143,7 +143,14 @@ public class Servidor {
                             respuesta.put("status", list_bd);
                             out.writeUTF(respuesta.toString());
                             
-                            
+                        case "obtener_usuarios":
+                            User user_obj=new User("","");
+                            List<String> users=user_obj.findAllUsers();
+                            JSONArray users_list= new JSONArray(users);
+                            JSONObject all=new JSONObject();
+                            all.put("operation", "obtener_usuarios");
+                            all.put("status", users_list);
+                            out.writeUTF(all.toString());
                         default: 
                             System.out.println("no match"); 
                          
