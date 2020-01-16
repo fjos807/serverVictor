@@ -12,11 +12,14 @@ Paso1
 $ sudo su
 ```
 Paso2
+
 Paso3
 
 ### Windows
 Paso1
+
 Paso2
+
 Paso3
 
 ##
