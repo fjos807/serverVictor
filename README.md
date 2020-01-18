@@ -145,23 +145,23 @@ Una vez completada la instalación observará un mensaje de confirmación.
 
 Luego, se verifica la instalación desde el **cmd** .
 ```bash
-$ ruby -v 
+C:\Users\user> ruby -v 
 
 2.5.1
 ```
 
 **B) Instalación de SQLlite3**
 ```bash
-user> gem install sqlite3 --platform=ruby -- --with-sqlite3-include=/c:/dev/sqlite3/ --with-sqlite3-lib=/c:/dev/sqlite3/.libs/
+C:\Users\user> gem install sqlite3 --platform=ruby -- --with-sqlite3-include=/c:/dev/sqlite3/ --with-sqlite3-lib=/c:/dev/sqlite3/.libs/
 ```
 
 **C) Instalación de Rails**
 ```bash
-user> gem install rails
+C:\Users\user> gem install rails
 ```
 Se verifica la instalación
 ```bash
-user> rails --version
+C:\Users\user> rails --version
 
 Rails 6.0.2.1
 ```
