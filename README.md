@@ -14,7 +14,7 @@ Para realizar la instalación en Linux, abra una ventana de la terminal e introd
 
 #### Dependencias
 
-A) Git
+**A) Git**
 
 ```bash
 $ sudo apt install git
@@ -24,7 +24,7 @@ Verificar instalación
 ```bash
 $ git --version
 ```
-B) Node.js
+**B) Node.js**
 
 Primero se debe agregar el repositorio
 ```bash
@@ -40,7 +40,7 @@ Y se verifica la instalación
 ```bash
 $ node -v
 ```
-C) YARN
+**C) YARN**
 
 Primero se debe agregar el repositorio
 ```bash
@@ -60,7 +60,7 @@ $ yarn --version
 
 #### Ruby, SQLite3 y Rails
 
-A) Instalación de Ruby
+**A) Instalación de Ruby**
 ```bash
 $ sudo apt-get install ruby-full
 ```
@@ -69,7 +69,7 @@ Se verifica la instalación
 $ ruby -v 2.5.1
 ```
 
-B) Instalación de SQLlite3
+**B) Instalación de SQLlite3**
 ```bash
 $ sudo apt-get install sqlite3
 ```
@@ -79,7 +79,7 @@ $ sqlite3 --version
 ```
 
 
-C) Instalación de Rails
+**C) Instalación de Rails**
 ```bash
 $ sudo gem install rails
 ```
