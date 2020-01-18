@@ -23,6 +23,8 @@ Verificar instalación
 
 ```bash
 $ git --version
+
+git version 2.17.1
 ```
 **B) Node.js**
 
@@ -39,6 +41,8 @@ $ sudo apt-get install nodejs
 Y se verifica la instalación
 ```bash
 $ node -v
+
+v12.14.1
 ```
 **C) YARN**
 
@@ -56,6 +60,8 @@ $ sudo apt install yarn
 Y se verifica la instalación
 ```bash
 $ yarn --version
+
+1.21.1
 ```
 
 #### Ruby, SQLite3 y Rails
@@ -66,7 +72,9 @@ $ sudo apt-get install ruby-full
 ```
 Se verifica la instalación
 ```bash
-$ ruby -v 2.5.1
+$ ruby -v 
+
+2.5.1
 ```
 
 **B) Instalación de SQLlite3**
@@ -76,6 +84,8 @@ $ sudo apt-get install sqlite3
 Se verifica la instalación
 ```bash
 $ sqlite3 --version
+
+3.22.0 2018-01-22 18:45:57 0c55d179733b46d8d0ba4d88e01a25e10677046ee3da1d5b1581e86726f2alt1
 ```
 
 
@@ -86,6 +96,8 @@ $ sudo gem install rails
 Se verifica la instalación
 ```bash
 $ rails --version
+
+Rails 6.0.2.1
 ```
 
 
