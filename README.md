@@ -207,7 +207,7 @@ Puma starting in single mode...
 * Listening on tcp://[::1]:3000
 Use Ctrl-C to stop
 ```
-Solamente debe dirigirse a: localhost:3000
+Por último, solamente debe dirigirse a: localhost:3000
 
 ![rails_welcome](https://user-images.githubusercontent.com/31530117/72700361-4bc66f00-3b11-11ea-81fd-e657b2ce59ca.png)
 
@@ -218,13 +218,9 @@ Ejecute
 $ rails generate controller Welcome index
 ```
 
-El comando anterior crea un controlador llamado "Welcome" con una acción llamada "index"
+El comando anterior crea un controlador llamado **Welcome** con una acción llamada **index**
 
-Para crear la vista dirigase a
-```bash
-app/views/welcome/index.html.erb
-```
-Borre todo el contenido e ingrese
+Para crear la vista dirigase a **app/views/welcome/index.html.erb**, borre todo el contenido e ingrese
 ```bash
 <h1>Bienvenido!</h1>
 <%= link_to 'Acceder a la aplicación', controller: 'articles' %>
@@ -235,7 +231,7 @@ Luego, es necesario configurar el controlador para que pueda desplegar la vista.
 config/routes.rb
 ```
 
-Y en ese archivo agregue este código luego de la acción "get"
+Y en ese archivo agregue este código luego de la acción get
 ```bash
 root 'welcome#index'
 ```
@@ -245,7 +241,7 @@ Hasta este punto ya se conocen las funcionalidades básicas de Rails. Ahora vamo
 
 **C) Crear un recurso REST (API)**
 
-Digijase al archivo config/routes.rb y en medio de las acciones vistas antes agregue lo siguiente
+Digijase al archivo **config/routes.rb** y en medio de las acciones vistas antes agregue lo siguiente
 ```bash
 resources :articles
 ```
@@ -275,7 +271,7 @@ Ejecute el comando
 $ rails generate controller Articles
 ```
 
-Luego, localice el archivo app/controllers/articles_controller.rb y agregue el siguiente código dentro de la clase
+Luego, localice el archivo **app/controllers/articles_controller.rb** y agregue el siguiente código dentro de la clase
 ```bash
 def new
 end
@@ -283,7 +279,7 @@ end
 
 **E) Crear nuevos artículos**
 
-Vaya a la ruta app/views/articles/ y cree un nuevo archivo llamado new.html.erb
+Vaya a la ruta **app/views/articles/** y cree un nuevo archivo llamado **new.html.erb**
 
 Luego, agregue el código del formulario
 
@@ -335,7 +331,7 @@ def show
     @article = Article.find(params[:id])
   end
 ```
-Luego, se prepara la vista creando en la ruta app/views/articles/ un nuevo archivo llamado show.html.erb
+Luego, se prepara la vista creando en la ruta **app/views/articles/** un nuevo archivo llamado **show.html.erb**
 ```bash
 <p>
   <strong>Título:</strong>
@@ -359,7 +355,7 @@ def index
   end
 ```
 
-Luego, se prepara la vista creando en la ruta app/views/articles/index.html.erb
+Luego, se prepara la vista creando en la ruta **app/views/articles/index.html.erb**
 ```bash
 <h2>Listado de todos los artículos</h2>
 
@@ -389,7 +385,7 @@ Luego, se prepara la vista creando en la ruta app/views/articles/index.html.erb
 
 **H) Agregar validaciones**
 
-Nos dirigimos a la ruta app/models/article.rb y se agrega al modelo
+Nos dirigimos a la ruta **app/models/article.rb** y se agrega al modelo
 ```bash
 class Article < ApplicationRecord
   validates :title, presence: true,
@@ -410,7 +406,7 @@ def create
 end
 ```
 
-En la vista new.html.erb se modifica el formulario de la siguiente manera
+En la vista **new.html.erb** se modifica el formulario de la siguiente manera
 ```bash
 <%= form_with scope: :article, url: articles_path, local: true do |form| %>
  
@@ -452,7 +448,7 @@ def edit
   @article = Article.find(params[:id])
 end
 ```
-Y se crea la vista en app/views/articles/ llamada edit.html.erb
+Y se crea la vista en **app/views/articles/** llamada **edit.html.erb**
 ```bash
 <h2>Editar artículo</h2>
 
@@ -516,4 +512,5 @@ def destroy
 end
 ```
 
-Y listo.
+
+Por último, de estilo a las vista generadas y listo. :metal:
