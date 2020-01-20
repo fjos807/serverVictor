@@ -226,12 +226,7 @@ Para crear la vista dirigirse a **app/views/welcome/index.html.erb**, borre todo
 <%= link_to 'Acceder a la aplicación', controller: 'articles' %>
 ```
 
-Luego, es necesario configurar el controlador para que pueda desplegar la vista. Para ello vaya a
-```bash
-config/routes.rb
-```
-
-Y en ese archivo agregue este código luego de la acción get
+Luego, es necesario configurar el controlador para que pueda desplegar la vista. Para ello vaya a **config/routes.rb** y en ese archivo agregue este código luego de la acción get
 ```bash
 root 'welcome#index'
 ```
