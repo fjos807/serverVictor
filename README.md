@@ -165,3 +165,355 @@ C:\Users\user> rails --version
 
 Rails 6.0.2.1
 ```
+
+## 2. Realización del taller
+
+**A) Crear el proyecto**
+
+Abra una consola (tanto en Windows como en Linux) y digite el siguiente comando
+
+```bash
+$ rails new <Nombre de la apliación>
+
+```
+Al finalizar el proceso de creación se debe mostrar el siguiente mensaje
+
+```bash
+Webpacker successfully installed 🎉 🍰
+```
+
+**B) Inicie la aplicación**
+
+Ejecute
+```bash
+$ cd <Nombre de la aplicación>
+```
+
+
+Y luego
+```bash
+$ rails server
+```
+Obteniendo como resultado
+```bash
+=> Booting Puma
+=> Rails 6.0.2.1 application starting in development 
+=> Run `rails server --help` for more startup options
+Puma starting in single mode...
+* Version 4.3.1 (ruby 2.5.1-p57), codename: Mysterious Traveller
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://127.0.0.1:3000
+* Listening on tcp://[::1]:3000
+Use Ctrl-C to stop
+```
+Solamente debe dirigirse a: localhost:3000
+
+![rails_welcome](https://user-images.githubusercontent.com/31530117/72700361-4bc66f00-3b11-11ea-81fd-e657b2ce59ca.png)
+
+**C) Crear primer controlador y vista**
+
+Ejecute
+```bash
+$ rails generate controller Welcome index
+```
+
+El comando anterior crea un controlador llamado "Welcome" con una acción llamada "index"
+
+Para crear la vista dirigase a
+```bash
+app/views/welcome/index.html.erb
+```
+Borre todo el contenido e ingrese
+```bash
+<h1>Bienvenido!</h1>
+<%= link_to 'Acceder a la aplicación', controller: 'articles' %>
+```
+
+Luego, es necesario configurar el controlador para que pueda desplegar la vista. Para ello vaya a
+```bash
+config/routes.rb
+```
+
+Y en ese archivo agregue este código luego de la acción "get"
+```bash
+root 'welcome#index'
+```
+Al guargar los cambios y refrescar podremos observar que en la ruta base de la aplicación se muestra el mensaje de bienvenida.
+
+Hasta este punto ya se conocen las funcionalidades básicas de Rails. Ahora vamos a crear un ejemplo más real y con mayor funcionalidad.
+
+**C) Crear un recurso REST (API)**
+
+Digijase al archivo config/routes.rb y en medio de las acciones vistas antes agregue lo siguiente
+```bash
+resources :articles
+```
+Este método se encarga de crear todas las rutas de un API básico, se pueden observar mediante
+```bash
+$ rails routes
+
+
+       Prefix Verb   URI Pattern                  Controller#Action
+welcome_index GET    /welcome/index(.:format)     welcome#index
+     articles GET    /articles(.:format)          articles#index
+              POST   /articles(.:format)          articles#create
+  new_article GET    /articles/new(.:format)      articles#new
+ edit_article GET    /articles/:id/edit(.:format) articles#edit
+      article GET    /articles/:id(.:format)      articles#show
+              PATCH  /articles/:id(.:format)      articles#update
+              PUT    /articles/:id(.:format)      articles#update
+              DELETE /articles/:id(.:format)      articles#destroy
+         root GET    /                            welcome#index
+
+```
+
+**D) Crear el controlador para los artículos**
+
+Ejecute el comando
+```bash
+$ rails generate controller Articles
+```
+
+Luego, localice el archivo app/controllers/articles_controller.rb y agregue el siguiente código dentro de la clase
+```bash
+def new
+end
+```
+
+**E) Crear nuevos artículos**
+
+Vaya a la ruta app/views/articles/ y cree un nuevo archivo llamado new.html.erb
+
+Luego, agregue el código del formulario
+
+```bash
+<%= form_with scope: :article, url: articles_path, local: true do |form| %>
+  <p>
+    <%= form.label :Título %><br>
+    <%= form.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= form.label :Texto %><br>
+    <%= form.text_area :text %>
+  </p>
+ 
+  <p>
+    <%= form.submit :Guardar%>
+  </p>
+<% end %>
+
+  <%= link_to 'Atrás', articles_path %>
+```
+Con el objetivo de almacenar los artículos en la base de datos, creamos el siguiente modelo en la consola
+
+```bash
+$ rails generate model Article title:string text:text
+```
+Una vez creado el modelo, es necesario actualizarlo en la base mediante
+```bash
+$ rails db:migrate
+```
+
+Luego, agregue la siguiente acción al controlador correspondiente
+```bash
+def create
+  @article = Article.new(params.require(:article).permit(:title, :text))
+ 
+  @article.save
+  redirect_to @article
+end
+```
+
+**F) Ver un artículo**
+
+Primero, se define la acción en el controlador
+
+```bash
+def show
+    @article = Article.find(params[:id])
+  end
+```
+Luego, se prepara la vista creando en la ruta app/views/articles/ un nuevo archivo llamado show.html.erb
+```bash
+<p>
+  <strong>Título:</strong>
+  <%= @article.title %>
+</p>
+ 
+<p>
+  <strong>Texto:</strong>
+  <%= @article.text %>
+</p>
+  <%= link_to 'Editar artículo', edit_article_path(@article) %>
+  <%= link_to 'Atrás', articles_path %>
+```
+
+**G) Ver todos los artículos**
+
+Comenzamos editando la acción **index** del controlador
+```bash
+def index
+    @articles = Article.all
+  end
+```
+
+Luego, se prepara la vista creando en la ruta app/views/articles/index.html.erb
+```bash
+<h2>Listado de todos los artículos</h2>
+
+
+  <%= link_to 'Crear artículo', new_article_path %>
+  
+  <table class="table">
+    <tr>
+      <th>Título</th>
+      <th>Texto</th>
+      <th colspan="3">Acciones</th>
+    </tr>
+   
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.text %></td>
+        <td><%= link_to 'Ver', article_path(article) %></td>
+        <td><%= link_to 'Editar', edit_article_path(article) %></td>
+        <td><%= link_to 'Eliminar', article_path(article) ,
+                method: :delete,
+                data: { confirm: '¿Seguro de que desea eliminar?' } %></td>
+      </tr>
+    <% end %>
+  </table>
+```
+
+**H) Agregar validaciones**
+
+Nos dirigimos a la ruta app/models/article.rb y se agrega al modelo
+```bash
+class Article < ApplicationRecord
+  validates :title, presence: true,
+                    length: { minimum: 5 }
+end
+```
+
+En el controlador correspondiente se agrega a la acción create
+```bash
+def create
+  @article = Article.new(params.require(:article).permit(:title, :text))
+ 
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
+end
+```
+
+En la vista new.html.erb se modifica el formulario de la siguiente manera
+```bash
+<%= form_with scope: :article, url: articles_path, local: true do |form| %>
+ 
+  <% if @article.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "errores") %>:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= form.label :Título %><br>
+    <%= form.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= form.label :Texto %><br>
+    <%= form.text_area :text %>
+  </p>
+ 
+  <p>
+    <%= form.submit :Guardar%>
+  </p>
+ 
+<% end %>
+```
+
+**I) Actualizar un artículo**
+
+Agregamos una nueva acción al controlador
+```bash
+def edit
+  @article = Article.find(params[:id])
+end
+```
+Y se crea la vista en app/views/articles/ llamada edit.html.erb
+```bash
+<h2>Editar artículo</h2>
+
+<%= form_with(model: @article, local: true) do |form| %>
+ 
+    <% if @article.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@article.errors.count, "errores") %> :
+        </h2>
+        <ul>
+          <% @article.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+   
+    <p>
+      <%= form.label :Título %><br>
+      <%= form.text_field :title %>
+    </p>
+   
+    <p>
+      <%= form.label :Texto %><br>
+      <%= form.text_area :text %>
+    </p>
+   
+    <p>
+      <%= form.submit :Actualizar%>
+    </p>
+   
+  <% end %>
+
+  </div>
+  <%= link_to 'Atrás', articles_path%>
+```
+
+Y se crea la acción de actualizar en el controlador
+```bash
+def update
+    @article = Article.find(params[:id])
+   
+    if @article.update(params.require(:article).permit(:title, :text))
+      redirect_to @article
+    else
+      render 'edit'
+    end
+  end
+```
+
+**J) Eliminar un artículo**
+
+Creamos la acción de actualizar en el controlador
+```bash
+def destroy
+  @article = Article.find(params[:id])
+  @article.destroy
+ 
+  redirect_to articles_path
+end
+```
+
+Y listo.
