@@ -173,7 +173,7 @@ Rails 6.0.2.1
 Abra una consola (tanto en Windows como en Linux) y digite el siguiente comando
 
 ```bash
-$ rails new <Nombre de la apliación>
+$ rails new <Nombre de la aplicación>
 
 ```
 Al finalizar el proceso de creación se debe mostrar el siguiente mensaje
@@ -220,7 +220,7 @@ $ rails generate controller Welcome index
 
 El comando anterior crea un controlador llamado **Welcome** con una acción llamada **index**
 
-Para crear la vista dirigase a **app/views/welcome/index.html.erb**, borre todo el contenido e ingrese
+Para crear la vista dirigirse a **app/views/welcome/index.html.erb**, borre todo el contenido e ingrese
 ```bash
 <h1>Bienvenido!</h1>
 <%= link_to 'Acceder a la aplicación', controller: 'articles' %>
@@ -235,13 +235,13 @@ Y en ese archivo agregue este código luego de la acción get
 ```bash
 root 'welcome#index'
 ```
-Al guargar los cambios y refrescar podremos observar que en la ruta base de la aplicación se muestra el mensaje de bienvenida.
+Al guardar los cambios y refrescar podremos observar que en la ruta base de la aplicación se muestra el mensaje de bienvenida.
 
 Hasta este punto ya se conocen las funcionalidades básicas de Rails. Ahora vamos a crear un ejemplo más real y con mayor funcionalidad.
 
 **C) Crear un recurso REST (API)**
 
-Digijase al archivo **config/routes.rb** y en medio de las acciones vistas antes agregue lo siguiente
+Diríjase al archivo **config/routes.rb** y en medio de las acciones vistas antes agregue lo siguiente
 ```bash
 resources :articles
 ```
@@ -315,7 +315,7 @@ $ rails db:migrate
 Luego, agregue la siguiente acción al controlador correspondiente
 ```bash
 def create
-  @article = Article.new(params.require(:article).permit(:title, :text))
+  @article = Article.new(params.require(:article).permit(:title :text))
  
   @article.save
   redirect_to @article
@@ -396,7 +396,7 @@ end
 En el controlador correspondiente se agrega a la acción create
 ```bash
 def create
-  @article = Article.new(params.require(:article).permit(:title, :text))
+  @article = Article.new(params.require(:article).permit(:title :text))
  
   if @article.save
     redirect_to @article
